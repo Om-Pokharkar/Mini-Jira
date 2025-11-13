@@ -5,6 +5,7 @@
   <title>Manager Dashboard</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
+
 <body>
   <nav>
     <h1>Mini-Jira | Manager</h1>
@@ -12,11 +13,72 @@
   </nav>
 
   <div class="container">
-    <h2>Assign Bugs</h2>
-    <div id="bugList"></div>
+    <h2>All Open Bugs</h2>
+    <div id="bugList" class="card-list"></div>
   </div>
 
-  <script src="js/bugs.js"></script>
-  <script src="js/auth.js"></script>
+<script src="js/config.js"></script>
+<script src="js/token-parser.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/roles.js"></script>
+<script src="js/api.js"></script>
+
+<script>
+// Redirect non-managers
+(function () {
+  if (getPrimaryRole() !== "manager") {
+    alert("Unauthorized");
+    logout();
+  }
+})();
+
+async function loadAllBugs() {
+  const data = await apiGet("/getBugs");
+
+  const box = document.getElementById("bugList");
+  box.innerHTML = "";
+
+  if (!data || !data.items) return;
+
+  data.items.forEach(bug => {
+    const div = document.createElement("div");
+    div.className = "card";
+
+    div.innerHTML = `
+      <h3>${bug.title}</h3>
+      <p>${bug.description}</p>
+      <span>Status: ${bug.status}</span>
+
+      <select id="dev_${bug.bug_id}">
+        <option value="">Assign Developer</option>
+        <option value="dev1@gmail.com">dev1@gmail.com</option>
+        <option value="dev2@gmail.com">dev2@gmail.com</option>
+      </select>
+
+      <button onclick="assignBug('${bug.bug_id}')">Assign</button>
+    `;
+
+    box.appendChild(div);
+  });
+}
+
+async function assignBug(id) {
+  const dev = document.getElementById("dev_" + id).value;
+  if (!dev) {
+    alert("Select developer");
+    return;
+  }
+
+  await apiPost("/assignBug", {
+    bug_id: id,
+    developer_id: dev
+  });
+
+  alert("Assigned!");
+  loadAllBugs();
+}
+
+loadAllBugs();
+</script>
 </body>
 </html>
