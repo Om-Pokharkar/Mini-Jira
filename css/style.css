@@ -1,89 +1,156 @@
+/* ====== GENERAL RESET ====== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Segoe UI", Arial, sans-serif;
 }
 
 body {
-  background-color: #f4f6f8;
+  background: #f4f5f7;
   color: #333;
+  padding-bottom: 40px;
 }
 
+/* ====== NAVBAR ====== */
 nav {
-  background-color: #0052cc;
+  background: #0052CC;
   color: white;
-  padding: 1rem 2rem;
+  padding: 14px 22px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
 
 nav h1 {
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: 22px;
+  font-weight: 600;
 }
 
 nav button {
-  background: white;
-  color: #0052cc;
+  background: #FF5630;
   border: none;
-  padding: 0.4rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.container {
-  width: 90%;
-  max-width: 1000px;
-  margin: 2rem auto;
-  background: white;
-  padding: 2rem;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-}
-
-input, textarea, select, button {
-  width: 100%;
-  padding: 0.6rem;
-  margin: 0.5rem 0;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-button.primary {
-  background-color: #0052cc;
+  padding: 10px 14px;
   color: white;
-  font-weight: bold;
+  cursor: pointer;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+nav button:hover {
+  background: #DE350B;
+}
+
+/* ====== LOGIN PAGE ====== */
+.login-container {
+  width: 380px;
+  background: white;
+  padding: 30px;
+  margin: 90px auto;
+  border-radius: 8px;
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
+  text-align: center;
+}
+
+.login-container h1 {
+  margin-bottom: 20px;
+  color: #0052CC;
+}
+
+.login-container button.primary {
+  width: 100%;
+  margin-top: 10px;
+}
+
+/* ====== GENERAL BUTTONS ====== */
+button.primary {
+  background: #0052CC;
   border: none;
+  padding: 12px 20px;
+  color: white;
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 15px;
+  margin-top: 12px;
 }
 
 button.primary:hover {
-  background-color: #003d99;
+  background: #0747A6;
 }
 
-.bug-card {
-  border: 1px solid #ddd;
-  border-left: 5px solid #0052cc;
+button {
+  cursor: pointer;
+}
+
+/* ====== INPUTS ====== */
+input, textarea, select {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border: 1px solid #CCD0D5;
+  border-radius: 6px;
+  font-size: 15px;
+  background: white;
+}
+
+textarea {
+  height: 120px;
+  resize: none;
+}
+
+/* ====== PAGE CONTAINERS ====== */
+.container {
+  width: 75%;
+  background: white;
+  margin: 40px auto;
+  padding: 25px;
   border-radius: 8px;
-  padding: 1rem;
-  margin-top: 1rem;
-  background: #fafafa;
+  box-shadow: 0 0 12px rgba(0,0,0,0.1);
 }
 
-.bug-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.container h2 {
+  margin-top: 25px;
+  margin-bottom: 12px;
+  color: #0052CC;
+}
+
+/* ====== BUG CARDS ====== */
+.card-list {
+  margin-top: 20px;
+}
+
+.card {
+  background: #FFFFFF;
+  padding: 18px;
+  margin-bottom: 12px;
+  border-left: 5px solid #0052CC;
+  border-radius: 6px;
+  box-shadow: 0 0 8px rgba(0,0,0,0.05);
+}
+
+.card h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.card button {
+  margin-top: 10px;
+}
+
+.card span {
+  display: block;
+  margin-top: 8px;
   font-weight: bold;
+  color: #555;
 }
 
-.status {
-  padding: 0.3rem 0.6rem;
-  border-radius: 5px;
-  color: white;
-}
+/* ====== RESPONSIVE ====== */
+@media (max-width: 780px) {
+  .container {
+    width: 90%;
+  }
 
-.status.Open { background-color: #d9534f; }
-.status.Assigned { background-color: #f0ad4e; }
-.status.Closed { background-color: #5cb85c; }
+  nav h1 {
+    font-size: 18px;
+  }
+}
