@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tester Dashboard</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <nav>
+    <h1>Mini-Jira | Tester</h1>
+    <button onclick="logout()">Logout</button>
+  </nav>
+
+  <div class="container">
+    <h2>Create a New Bug</h2>
+    <input type="text" id="bugTitle" placeholder="Bug title" />
+    <textarea id="bugDescription" placeholder="Describe the bug..."></textarea>
+    <button class="primary" onclick="createBug()">Create Bug</button>
+
+    <h2>My Bugs</h2>
+    <div id="bugList"></div>
+  </div>
+
+  <script src="js/bugs.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

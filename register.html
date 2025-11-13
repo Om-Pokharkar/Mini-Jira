@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mini-Jira | Register</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h2>Create Account</h2>
+    <input type="text" id="name" placeholder="Full Name" />
+    <input type="email" id="email" placeholder="Email" />
+    <input type="password" id="password" placeholder="Password" />
+    <select id="role">
+      <option value="Tester">Tester</option>
+      <option value="Manager">Manager</option>
+      <option value="Developer">Developer</option>
+    </select>
+    <button class="primary" onclick="register()">Register</button>
+    <p>Already have an account? <a href="index.html">Login</a></p>
+  </div>
+  <script src="js/auth.js"></script>
+</body>
+</html>

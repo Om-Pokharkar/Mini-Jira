@@ -1,0 +1,89 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: #f4f6f8;
+  color: #333;
+}
+
+nav {
+  background-color: #0052cc;
+  color: white;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+nav button {
+  background: white;
+  color: #0052cc;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.container {
+  width: 90%;
+  max-width: 1000px;
+  margin: 2rem auto;
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+input, textarea, select, button {
+  width: 100%;
+  padding: 0.6rem;
+  margin: 0.5rem 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+button.primary {
+  background-color: #0052cc;
+  color: white;
+  font-weight: bold;
+  border: none;
+}
+
+button.primary:hover {
+  background-color: #003d99;
+}
+
+.bug-card {
+  border: 1px solid #ddd;
+  border-left: 5px solid #0052cc;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-top: 1rem;
+  background: #fafafa;
+}
+
+.bug-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+
+.status {
+  padding: 0.3rem 0.6rem;
+  border-radius: 5px;
+  color: white;
+}
+
+.status.Open { background-color: #d9534f; }
+.status.Assigned { background-color: #f0ad4e; }
+.status.Closed { background-color: #5cb85c; }
