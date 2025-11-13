@@ -5,6 +5,7 @@
   <title>Tester Dashboard</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
+
 <body>
   <nav>
     <h1>Mini-Jira | Tester</h1>
@@ -12,16 +13,74 @@
   </nav>
 
   <div class="container">
-    <h2>Create a New Bug</h2>
-    <input type="text" id="bugTitle" placeholder="Bug title" />
-    <textarea id="bugDescription" placeholder="Describe the bug..."></textarea>
+    <h2>Create New Bug</h2>
+
+    <input type="text" id="bugTitle" placeholder="Bug Title" />
+    <textarea id="bugDescription" placeholder="Describe the bug here..."></textarea>
+
     <button class="primary" onclick="createBug()">Create Bug</button>
 
-    <h2>My Bugs</h2>
-    <div id="bugList"></div>
+    <h2>My Created Bugs</h2>
+    <div id="bugList" class="card-list"></div>
   </div>
 
-  <script src="js/bugs.js"></script>
-  <script src="js/auth.js"></script>
+<script src="js/config.js"></script>
+<script src="js/token-parser.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/roles.js"></script>
+<script src="js/api.js"></script>
+
+<script>
+// Redirect non-testers
+(function () {
+  if (getPrimaryRole() !== "tester") {
+    alert("Unauthorized");
+    logout();
+  }
+})();
+
+async function createBug() {
+  const title = document.getElementById("bugTitle").value;
+  const desc = document.getElementById("bugDescription").value;
+  const user = getUserPayload();
+
+  if (!title || !desc) {
+    alert("Fill all fields");
+    return;
+  }
+
+  const res = await apiPost("/createBug", {
+    title,
+    description: desc,
+    created_by: user.email
+  });
+
+  alert("Bug Created!");
+  loadBugs();
+}
+
+async function loadBugs() {
+  const user = getUserPayload();
+  const data = await apiGet("/getBugs?created_by=" + user.email);
+
+  const box = document.getElementById("bugList");
+  box.innerHTML = "";
+
+  if (!data || !data.items) return;
+
+  data.items.forEach(bug => {
+    const div = document.createElement("div");
+    div.className = "card";
+    div.innerHTML = `
+      <h3>${bug.title}</h3>
+      <p>${bug.description}</p>
+      <span>Status: ${bug.status}</span>
+    `;
+    box.appendChild(div);
+  });
+}
+
+loadBugs();
+</script>
 </body>
 </html>
