@@ -1,38 +1,37 @@
-// auth.js
+// js/auth.js
+// depends on js/config.js (load config.js before auth.js)
+
+function buildLoginUrl() {
+  const cfg = window._config.cognito;
+  // Using implicit flow to return token in fragment (#)
+  const url = `${cfg.domain}/login?client_id=${cfg.userPoolClientId}` +
+              `&response_type=token&scope=openid+email+profile&redirect_uri=${encodeURIComponent(cfg.redirectUri)}`;
+  return url;
+}
+
+function redirectToLogin() {
+  window.location.href = buildLoginUrl();
+}
 
 function logout() {
-    const cfg = window._config.cognito;
-    const logoutUrl =
-        `https://${cfg.domain}/logout?client_id=${cfg.userPoolClientId}&logout_uri=${cfg.logoutUri}`;
-    sessionStorage.clear();
-    window.location.href = logoutUrl;
+  const cfg = window._config.cognito;
+  // clear session storage/local storage
+  sessionStorage.removeItem("id_token");
+  sessionStorage.removeItem("access_token");
+  // redirect to Cognito logout to clear session there too
+  const logoutUrl = `${cfg.domain}/logout?client_id=${cfg.userPoolClientId}&logout_uri=${encodeURIComponent(cfg.logoutUri)}`;
+  window.location.href = logoutUrl;
 }
 
-// Extract token from URL after first login
-function extractToken() {
-    const hash = window.location.hash.substring(1);
-    const params = new URLSearchParams(hash);
-    const id_token = params.get("id_token");
-
-    if (id_token) {
-        sessionStorage.setItem("id_token", id_token);
-        window.location.hash = ""; // clean URL
-    }
+// decode JWT payload
+function decodeJwt(token) {
+  try {
+    const parts = token.split('.');
+    const payload = parts[1];
+    return JSON.parse(atob(payload.replace(/-/g, '+').replace(/_/g, '/')));
+  } catch (e) {
+    return null;
+  }
 }
 
-// Decode JWT
-function decodeToken(token) {
-    const payload = token.split(".")[1];
-    return JSON.parse(atob(payload));
-}
-
-// Get logged-in user's email
-function getUserEmail() {
-    const token = sessionStorage.getItem("id_token");
-    if (!token) return null;
-    const decoded = decodeToken(token);
-    return decoded.email;
-}
-
-// Run on every page load:
-extractToken();
+export { redirectToLogin, logout, decodeJwt };
