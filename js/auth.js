@@ -1,30 +1,38 @@
-import "./config.js";
+// auth.js
 
-export function login() {
+function logout() {
     const cfg = window._config.cognito;
-
-    const url =
-        `https://${cfg.domain}/oauth2/authorize?response_type=token&client_id=${cfg.userPoolClientId}&redirect_uri=${cfg.redirectUri}&scope=email+openid+profile`;
-
-    window.location.href = url;
-}
-
-export function logout() {
-    const cfg = window._config.cognito;
-
-    const url =
+    const logoutUrl =
         `https://${cfg.domain}/logout?client_id=${cfg.userPoolClientId}&logout_uri=${cfg.logoutUri}`;
-
-    window.location.href = url;
+    sessionStorage.clear();
+    window.location.href = logoutUrl;
 }
 
-export function getTokenFromUrl() {
+// Extract token from URL after first login
+function extractToken() {
     const hash = window.location.hash.substring(1);
     const params = new URLSearchParams(hash);
-    return params.get("id_token");
+    const id_token = params.get("id_token");
+
+    if (id_token) {
+        sessionStorage.setItem("id_token", id_token);
+        window.location.hash = ""; // clean URL
+    }
 }
 
-export function decodeJwt(token) {
+// Decode JWT
+function decodeToken(token) {
     const payload = token.split(".")[1];
     return JSON.parse(atob(payload));
 }
+
+// Get logged-in user's email
+function getUserEmail() {
+    const token = sessionStorage.getItem("id_token");
+    if (!token) return null;
+    const decoded = decodeToken(token);
+    return decoded.email;
+}
+
+// Run on every page load:
+extractToken();
